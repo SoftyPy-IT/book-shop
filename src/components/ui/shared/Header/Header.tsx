@@ -142,12 +142,16 @@ export default function Header() {
                                 0
                             </span>
                         </button>
-                        <Button variant="outline" className="hidden sm:flex text-gray-700 border-gray-300 hover:bg-gray-100 hover:text-gray-900 py-2 px-4 shadow-sm hover:shadow-md transition-all">
-                            Log In
-                        </Button>
-                        <Button className="hidden sm:flex bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-5 shadow-md hover:shadow-lg transition-all font-medium rounded-lg">
+
+
+                        <Link href='/login'>
+                            <Button variant="outline" className="hidden sm:flex text-gray-700 border-gray-300 hover:bg-gray-100 hover:text-gray-900 py-2 px-4 shadow-sm hover:shadow-md transition-all">
+                                Log In
+                            </Button>
+                        </Link>
+                        <Link href='/register'> <Button className="hidden sm:flex bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-5 shadow-md hover:shadow-lg transition-all font-medium rounded-lg">
                             Register
-                        </Button>
+                        </Button></Link>
                     </div>
                 </div>
 
@@ -297,12 +301,16 @@ export default function Header() {
 
                     {/* Mobile Auth Buttons */}
                     <div className="mt-6 space-y-2">
-                        <Button variant="outline" className="w-full text-gray-700 border-gray-300">
-                            Log In
-                        </Button>
-                        <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white">
-                            Register
-                        </Button>
+                        <Link href='/login'>
+                            <Button variant="outline" className="w-full text-gray-700 border-gray-300">
+                                Log In
+                            </Button>
+                        </Link>
+                        <Link href='/register'>
+                            <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white">
+                                Register
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>
