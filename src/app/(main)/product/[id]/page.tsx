@@ -440,11 +440,8 @@ export default function BookProductDetail() {
 
     return (
         <div
-            className="min-h-screen text-[#1c1713]"
-            style={{
-                background: "linear-gradient(160deg, #fdf8f3 0%, #faf4ec 40%, #f5ede0 100%)",
-                fontFamily: "'Georgia', 'Noto Serif Bengali', serif",
-            }}
+
+            className="bg-white min-h-screen text-[#1d1d1f] antialiased" style={{ fontFamily: "system-ui, sans-serif" }}
         >
             <div className="max-w-[1300px] mx-auto px-4 py-8">
 
