@@ -62,10 +62,10 @@ export default function ExactProductSlider({ title }: any) {
     return (
         <section className="w-full bg-white  px-4">
 
-            <div className="max-w-[1400px] mt-14 mx-auto relative group">
+            <div className="max-w-7xl mt-14 mx-auto relative group">
                 <div className="flex justify-between items-center shadow-sn mb-3 px-2 py-3 rounded-lg border border-2">
                     <h3 className="font-bold">{title}</h3>
-                    <span className="font-bold">View More </span>
+                    <Link href='/shop'><span className="font-bold">View More </span></Link>
                 </div>
                 <button
                     className="absolute -left-2 top-[40%] -translate-y-1/2 z-20 bg-white rounded-full p-2 shadow-md border border-gray-100 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -136,12 +136,12 @@ export default function ExactProductSlider({ title }: any) {
 
                                         {/* Buttons */}
                                         <div className="mt-auto flex items-center gap-2">
-                                            <Button
+                                            <Link href='/product/123'> <Button
                                                 variant="outline"
                                                 className="flex-grow h-9 rounded-lg text-[12px] border-gray-100 text-gray-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors"
                                             >
                                                 বিস্তারিত দেখুন
-                                            </Button>
+                                            </Button></Link>
                                             <Button
                                                 variant="outline"
                                                 size="icon"

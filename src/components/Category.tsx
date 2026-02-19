@@ -121,7 +121,7 @@ export function CategorySlider({
                         {cats.map((cat) => (
                             <Link
                                 key={cat.slug}
-                                href={`${basePath}/${cat.slug}`}
+                                href='/shop'
                                 className={cn(
                                     "whitespace-nowrap rounded-full px-5 py-3 text-sm font-medium transition-all duration-200",
                                     "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900",

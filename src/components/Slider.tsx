@@ -44,7 +44,7 @@ export default function HeroSlider() {
     }, [handleNextSlide])
 
     return (
-        <div className="relative w-full h-96 max-w-[1380px] mx-auto  rounded-xl overflow-hidden shadow-2xl">
+        <div className="relative w-full h-80 max-w-7xl mx-auto  rounded-xl overflow-hidden shadow-2xl">
 
             {/* Slides */}
             {slides.map((slide, index) => (
@@ -60,7 +60,7 @@ export default function HeroSlider() {
                         backgroundAttachment: 'initial',
                         width: '100%',
                         height: '100%',
-                        objectFit: 'cover'
+                        objectFit: 'contain'
 
                     }}
                 />
