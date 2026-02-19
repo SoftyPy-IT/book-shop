@@ -1062,7 +1062,7 @@ export default function CheckoutPage() {
                     <div className="flex items-center justify-between">
                         <Link href="/" className="flex items-center gap-2">
                             <BookOpen className="text-amber-500" size={24} />
-                            <span className="text-xl font-black text-gray-900">BoiBazar</span>
+                            <span className="text-xl font-black text-gray-900">Reading</span>
                         </Link>
                         <div className="flex items-center gap-8">
                             <div className="flex items-center gap-3">

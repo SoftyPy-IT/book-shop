@@ -242,7 +242,7 @@ export default function LoginPage() {
                                     <div className="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center">
                                         <BookOpen size={24} className="text-white" />
                                     </div>
-                                    <span className="text-2xl font-black text-gray-900">BoiBazar</span>
+                                    <span className="text-2xl font-black text-gray-900">Reading</span>
                                 </div>
 
                                 {/* Hero Text */}
