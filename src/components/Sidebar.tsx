@@ -50,7 +50,7 @@ const navItems: NavItem[] = [
     },
     {
         title: "Settings",
-        href: "/account/settings",
+        href: "/account/edit",
         icon: <Settings className="h-5 w-5" />,
     },
 ];
