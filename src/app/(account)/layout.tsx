@@ -31,7 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Header />
-        <div className="flex gap- max-w-7xl mx-auto py-5">
+        <div className="flex gap-3 max-w-7xl mx-auto py-5">
           <Sidebar />
           {children}
         </div>

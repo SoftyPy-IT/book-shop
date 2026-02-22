@@ -26,8 +26,8 @@ interface NavItem {
 
 const navItems: NavItem[] = [
     {
-        title: "Dashboard",
-        href: "/account",
+        title: "Account",
+        href: "/account/profile",
         icon: <Home className="h-5 w-5" />,
     },
     {
@@ -36,12 +36,7 @@ const navItems: NavItem[] = [
         icon: <ShoppingBag className="h-5 w-5" />,
         badge: 3,
     },
-    {
-        title: "Cart",
-        href: "/account/cart",
-        icon: <Package className="h-5 w-5" />,
-        badge: 2,
-    },
+
     {
         title: "Wishlist",
         href: "/account/wishlist",
@@ -64,7 +59,7 @@ const navItems: NavItem[] = [
 const user = {
     name: "Ibrahim Sikder",
     email: "ibrahim.sikder503@gmail.com",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    avatar: "",
     initials: "IS"
 };
 
@@ -97,15 +92,15 @@ export default function Sidebar() {
                             <Link
                                 href={item.href}
                                 className={`flex items-center justify-between px-6 py-4 transition-all relative group ${pathname === item.href
-                                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
-                                        : "hover:bg-gray-50 dark:hover:bg-gray-800"
+                                    ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
+                                    : "hover:bg-gray-50 dark:hover:bg-gray-800"
                                     }`}
                             >
                                 <div className="flex items-center space-x-3">
                                     <div
                                         className={`${pathname === item.href
-                                                ? "text-white"
-                                                : "text-gray-500 group-hover:text-blue-600 dark:text-gray-400"
+                                            ? "text-white"
+                                            : "text-gray-500 group-hover:text-blue-600 dark:text-gray-400"
                                             }`}
                                     >
                                         {item.icon}
@@ -124,8 +119,8 @@ export default function Sidebar() {
                                     )}
                                     <ChevronRight
                                         className={`h-4 w-4 transition-all ${pathname === item.href
-                                                ? "text-white"
-                                                : "text-gray-400 group-hover:translate-x-1"
+                                            ? "text-white"
+                                            : "text-gray-400 group-hover:translate-x-1"
                                             }`}
                                     />
                                 </div>
