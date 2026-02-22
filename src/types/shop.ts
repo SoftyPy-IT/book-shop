@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// types/shop.ts
 import {
   MousePointerSquareDashed,
   BookMarked,
