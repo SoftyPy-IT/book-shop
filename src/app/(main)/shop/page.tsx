@@ -1648,7 +1648,7 @@ export default function ShopPage() {
                             </div>
                         </div>
 
-                        {/* Results Stats - Mobile */}
+
                         <div className="lg:hidden flex items-center justify-between mb-4">
                             <span className="text-sm text-gray-500">
                                 {sortedBooks.length} টি বই
