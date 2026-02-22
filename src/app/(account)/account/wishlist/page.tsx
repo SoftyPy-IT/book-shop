@@ -98,8 +98,8 @@ export default function WishlistPage() {
             <Star
                 key={index}
                 className={`h-4 w-4 ${index < Math.floor(rating)
-                        ? "text-yellow-400 fill-yellow-400"
-                        : "text-gray-300"
+                    ? "text-yellow-400 fill-yellow-400"
+                    : "text-gray-300"
                     }`}
             />
         ));
