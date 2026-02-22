@@ -2,12 +2,13 @@
 
 
 
-import { CategorySlider } from '@/components/Category'
-import FeatureSection from '@/components/FeatureSection'
+import { CategorySlider } from '@/components/home/Category'
+import FeatureSection from '@/components/home/FeatureSection'
 import ProductCard from '@/components/Product/ProductCard'
-import PublishedSection from '@/components/PublishedSection'
-import HeroSlider from '@/components/Slider'
-import TestimonialSection from '@/components/TestimonialSection'
+import PublishedSection from '@/components/home/PublishedSection'
+import HeroSlider from '@/components/home/Slider'
+import TestimonialSection from '@/components/home/TestimonialSection'
+import CategorySection from '@/components/home/CategorySection'
 
 export default function Home() {
 
@@ -16,15 +17,19 @@ export default function Home() {
 
 
       <HeroSlider />
+
       <FeatureSection />
-      <ProductCard title='নতুন প্রকাশিত বই' />
+      <ProductCard title='Top Selling Books' />
       <CategorySlider />
+
       <ProductCard title='কুরআন ও হাদিস বিষয়ক বই' />
-      <TestimonialSection />
+
+
+      <CategorySection />
       <ProductCard title='কুরআন ও হাদিস বিষয়ক বই' />
       <PublishedSection />
       <ProductCard title='ফ্রিল্যান্সিং ও আউটসোর্সিং' />
-
+      <TestimonialSection />
       <ProductCard title='All Products ' />
 
     </main>

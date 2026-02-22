@@ -1,8 +1,7 @@
 'use client'
 
+import { ArrowUp, Facebook, Instagram, Linkedin, Mail, MapPin, Phone, RotateCcw, Shield, Truck, Twitter } from 'lucide-react'
 import Link from 'next/link'
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin, ArrowUp, Truck, Shield, RotateCcw } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 
 export default function Footer() {
     const scrollToTop = () => {

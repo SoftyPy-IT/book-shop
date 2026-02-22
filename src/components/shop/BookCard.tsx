@@ -2,28 +2,22 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Book, TAGS } from "@/types/shop";
 import {
-    Eye,
-    Heart,
-    ShoppingCart,
-    Star,
-    Trophy,
-    Sparkles,
-    GemIcon,
     BookOpen,
     Calendar,
+    Eye,
+    GemIcon,
     Globe,
-    Pen,
-    Crown,
-    Award,
-    Rocket,
-    Percent,
+    Heart,
+    ShoppingCart,
+    Sparkles,
+    Star,
+    Trophy
 } from "lucide-react";
-import { Book } from "@/types/shop";
-import { TAGS } from "@/types/shop";
+import Link from "next/link";
+import { useState } from "react";
 
 interface BookCardProps {
     book: Book;
