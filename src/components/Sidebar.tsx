@@ -45,7 +45,7 @@ const navItems: NavItem[] = [
     },
     {
         title: "Track Order",
-        href: "/account/track-order",
+        href: "/track-order",
         icon: <Package className="h-5 w-5" />,
     },
     {
@@ -66,7 +66,7 @@ export default function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="w-72 shrink-0 hidden lg:block">
+        <aside className="w-80 shrink-0 hidden lg:block">
             <div className="sticky top-28">
                 {/* User Profile Card */}
                 <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6 mb-6 border border-gray-200 dark:border-gray-800">
@@ -139,17 +139,7 @@ export default function Sidebar() {
                     </div>
                 </nav>
 
-                {/* Quick Stats */}
-                <div className="mt-6 grid grid-cols-2 gap-4">
-                    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-4 border border-gray-200 dark:border-gray-800">
-                        <p className="text-2xl font-bold text-blue-600">12</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">Total Orders</p>
-                    </div>
-                    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-4 border border-gray-200 dark:border-gray-800">
-                        <p className="text-2xl font-bold text-purple-600">₱3.2k</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">Spent</p>
-                    </div>
-                </div>
+
             </div>
         </aside>
     );
