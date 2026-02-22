@@ -137,6 +137,9 @@ export default function Header() {
                         <Link href='/register'> <Button className="hidden sm:flex bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-5 shadow-md hover:shadow-lg transition-all font-medium rounded-lg">
                             Register
                         </Button></Link>
+                        <Link href='/account/profile'> <Button className="hidden sm:flex bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-5 shadow-md hover:shadow-lg transition-all font-medium rounded-lg">
+                            My Account
+                        </Button></Link>
                     </div>
                 </div>
 
