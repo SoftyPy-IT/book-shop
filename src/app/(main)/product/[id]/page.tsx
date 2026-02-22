@@ -968,7 +968,9 @@ export default function BookProductDetail() {
                                     <ShoppingCart size={18} /> কার্টে যোগ করুন
                                 </button>
                                 <button className="h-14 bg-amber-700 text-white rounded-2xl font-black uppercase text-sm tracking-wider hover:bg-amber-800 flex items-center justify-center gap-2 transition-all shadow-lg shadow-amber-700/30">
-                                    এখনই কিনুন
+                                    <Link href='/checkout'>
+                                        এখনই কিনুন
+                                    </Link>
                                 </button>
                             </div>
 
@@ -983,10 +985,7 @@ export default function BookProductDetail() {
                                 </div>
                             </div>
 
-                            {/* Ektiyone Button */}
-                            <button className="w-full h-12 rounded-2xl border-2 border-dashed border-amber-300 text-amber-800 font-bold text-sm flex items-center justify-center gap-2 hover:bg-amber-50 transition-colors">
-                                📦 একটিয়ানে বাতুন
-                            </button>
+
                         </div>
 
                         {/* Book Description */}
