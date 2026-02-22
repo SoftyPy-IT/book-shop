@@ -1,4 +1,3 @@
-// app/product/[id]/page.tsx
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-unescaped-entities */
 "use client";
@@ -9,7 +8,7 @@ import ProductInfo from "@/components/product/ProductInfo";
 import ReviewSection from "@/components/product/ReviewSection";
 import RelatedBooks from "@/components/product/RelatedBooks";
 
-// Book cover images
+
 const PRODUCT_IMAGES = [
     {
         src: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&q=90",
@@ -47,7 +46,7 @@ export default function BookProductDetail() {
                     ))}
                 </nav>
 
-                {/* Main Grid */}
+
                 <div className="flex flex-col lg:flex-row gap-12 items-start">
                     {/* Left: Image Gallery */}
                     <div className="w-full lg:w-[480px] lg:flex-shrink-0 lg:sticky lg:top-8">
