@@ -55,7 +55,6 @@ const navItems: NavItem[] = [
     },
 ];
 
-// Mock user data
 const user = {
     name: "Ibrahim Sikder",
     email: "ibrahim.sikder503@gmail.com",
