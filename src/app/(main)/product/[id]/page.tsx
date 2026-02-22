@@ -37,10 +37,15 @@ import {
     Printer,
     Search,
     Menu,
+    ThumbsUp,
+    MessageCircle,
+    Flag,
+    MoreHorizontal,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import Portal from "@/components/Portal";
 
 /* ═══════════════════════════════════════════════
    STATIC DATA - BOOK SHOP
@@ -116,16 +121,58 @@ const RATING_BREAKDOWN = [
 ];
 
 const MOCK_REVIEWS = [
-    { name: "মোঃ মাহেদী হাসান", date: "২৮ আগস্ট, ২০২৫", rating: 5, comment: "আলহামদুলিল্লাহ, বইটির অনুবাদ খুবই সহজ ও সাবলীল। কুরআন বোঝার জন্য এটি একটি অসাধারণ প্রচেষ্টা। প্রতিটি মুসলিমের বইটি পড়া উচিত।" },
-    { name: "সারা আহমেদ", date: "১৫ জুলাই, ২০২৫", rating: 4, comment: "বইটির কোয়ালিটি ভালো। পৃষ্ঠার মানও চমৎকার। অনুবাদ সহজ হওয়ায় যে কেউ সহজে কুরআন বুঝতে পারবেন।" },
-    { name: "আব্দুর রহমান", date: "৩ জুন, ২০২৫", rating: 5, comment: "অনেকদিন ধরে এমন একটি সহজ অনুবাদের অপেক্ষায় ছিলাম। ডেলিভারিও দ্রুত পেয়েছি। ধন্যবাদ।" },
+    {
+        name: "মোঃ মাহেদী হাসান",
+        date: "২৮ আগস্ট, ২০২৫",
+        rating: 5,
+        comment: "আলহামদুলিল্লাহ, বইটির অনুবাদ খুবই সহজ ও সাবলীল। কুরআন বোঝার জন্য এটি একটি অসাধারণ প্রচেষ্টা। প্রতিটি মুসলিমের বইটি পড়া উচিত।",
+        helpful: 24,
+        avatar: "MH"
+    },
+    {
+        name: "সারা আহমেদ",
+        date: "১৫ জুলাই, ২০২৫",
+        rating: 4,
+        comment: "বইটির কোয়ালিটি ভালো। পৃষ্ঠার মানও চমৎকার। অনুবাদ সহজ হওয়ায় যে কেউ সহজে কুরআন বুঝতে পারবেন।",
+        helpful: 12,
+        avatar: "SA"
+    },
+    {
+        name: "আব্দুর রহমান",
+        date: "৩ জুন, ২০২৫",
+        rating: 5,
+        comment: "অনেকদিন ধরে এমন একটি সহজ অনুবাদের অপেক্ষায় ছিলাম। ডেলিভারিও দ্রুত পেয়েছি। ধন্যবাদ।",
+        helpful: 8,
+        avatar: "AR"
+    },
+    {
+        name: "ফাতেমা আক্তার",
+        date: "২১ মে, ২০২৫",
+        rating: 5,
+        comment: "আমার পরিবারের সবাই বইটি পড়ছে। সবারই খুব ভালো লেগেছে। আল্লাহ প্রকাশককে উত্তম বিনিময় দিন।",
+        helpful: 31,
+        avatar: "FA"
+    },
+    {
+        name: "মোঃ ইব্রাহীম",
+        date: "১২ এপ্রিল, ২০২৫",
+        rating: 4,
+        comment: "বইটি খুবই ভালো। তবে আরো কিছু টিকা যোগ করলে ভালো হতো।",
+        helpful: 5,
+        avatar: "MI"
+    },
+    {
+        name: "নাসরিন সুলতানা",
+        date: "৫ মার্চ, ২০২৫",
+        rating: 5,
+        comment: "অসাধারণ! প্রতিটি আয়াতের সহজ অনুবাদ। যারা আরবি জানেন না তাদের জন্য এটি একটি মহামূল্যবান সম্পদ।",
+        helpful: 17,
+        avatar: "NS"
+    },
 ];
 
 const VISIBLE_THUMBS = 4;
 
-/* ═══════════════════════════════════════════════
-   PDF READER MODAL COMPONENT - ULTIMATE FIX
-═══════════════════════════════════════════════ */
 function PDFReaderModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [zoomLevel, setZoomLevel] = useState(100);
@@ -134,28 +181,21 @@ function PDFReaderModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
     const [bookmark, setBookmark] = useState<number[]>([]);
     const modalRef = useRef<HTMLDivElement>(null);
 
-    // Lock body scroll and prevent any interactions with background
+    // Lock body scroll when modal is open
     useEffect(() => {
         if (isOpen) {
             // Save current scroll position
             const scrollY = window.scrollY;
 
-            // Lock body with multiple properties to ensure no scrolling
+            // Lock body scroll
             document.body.style.position = 'fixed';
             document.body.style.top = `-${scrollY}px`;
             document.body.style.left = '0';
             document.body.style.right = '0';
             document.body.style.overflow = 'hidden';
             document.body.style.width = '100%';
-            document.body.style.height = '100%';
-
-            // Add a class to the root element to prevent any pointer events
-            document.documentElement.style.overflow = 'hidden';
-
-            // Prevent touch events on background
-            document.body.style.touchAction = 'none';
         } else {
-            // Restore scroll position
+            // Restore body scroll
             const scrollY = document.body.style.top;
             document.body.style.position = '';
             document.body.style.top = '';
@@ -163,9 +203,6 @@ function PDFReaderModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
             document.body.style.right = '';
             document.body.style.overflow = '';
             document.body.style.width = '';
-            document.body.style.height = '';
-            document.documentElement.style.overflow = '';
-            document.body.style.touchAction = '';
 
             // Restore scroll position
             if (scrollY) {
@@ -181,9 +218,6 @@ function PDFReaderModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
             document.body.style.right = '';
             document.body.style.overflow = '';
             document.body.style.width = '';
-            document.body.style.height = '';
-            document.documentElement.style.overflow = '';
-            document.body.style.touchAction = '';
         };
     }, [isOpen]);
 
@@ -228,205 +262,207 @@ function PDFReaderModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
     const currentPageData = SAMPLE_PAGES[currentPage - 1];
 
     return (
-        <div
-            className="fixed inset-0 flex items-center justify-center p-4"
-            style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex: 999999, // Maximum z-index
-                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
-            }}
-            onClick={handleBackdropClick}
-        >
-            {/* Modal Container - with even higher z-index inside */}
+        <Portal>
             <div
-                ref={modalRef}
-                className="relative w-full max-w-6xl h-[90vh] bg-white rounded-3xl overflow-hidden shadow-2xl border border-amber-200 flex flex-col"
+                className="fixed inset-0 flex items-center justify-center p-4"
                 style={{
-                    zIndex: 1000000, // Even higher than backdrop
-                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    zIndex: 9999999,
+                    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
                 }}
-                onClick={(e) => e.stopPropagation()}
+                onClick={handleBackdropClick}
             >
-                {/* Modal Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-amber-100 bg-gradient-to-r from-amber-50 to-white flex-shrink-0">
-                    <div className="flex items-center gap-3">
-                        <BookOpen className="text-amber-700" size={24} />
-                        <div>
-                            <h2 className="text-lg font-black text-[#1c1713]" style={{ fontFamily: "'Noto Serif Bengali', serif" }}>
-                                আল-কুরআনের সহজ বাংলা অনুবাদ
-                            </h2>
-                            <p className="text-xs text-amber-700/60">নমুনা পাঠ {currentPage} / {totalPages}</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={() => setShowSidebar(!showSidebar)}
-                            className="p-2 hover:bg-amber-100 rounded-xl transition-colors text-amber-700"
-                        >
-                            <Menu size={18} />
-                        </button>
-                        <button
-                            onClick={onClose}
-                            className="p-2 hover:bg-red-100 rounded-xl transition-colors text-red-500"
-                        >
-                            <X size={18} />
-                        </button>
-                    </div>
-                </div>
-
-                {/* Main Content - with independent scrolling */}
-                <div className="flex-1 flex overflow-hidden min-h-0">
-                    {/* Sidebar - Page Thumbnails */}
-                    {showSidebar && (
-                        <div className="w-64 border-r border-amber-100 bg-amber-50/30 overflow-y-auto p-4 flex-shrink-0">
-                            <div className="mb-4">
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400" size={14} />
-                                    <input
-                                        type="text"
-                                        placeholder="অনুসন্ধান..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-amber-200 bg-white focus:outline-none focus:border-amber-400"
-                                    />
-                                </div>
-                            </div>
-                            <h3 className="text-xs font-black text-amber-700/60 mb-3 uppercase tracking-wider">পৃষ্ঠাসমূহ</h3>
-                            <div className="space-y-2">
-                                {SAMPLE_PAGES.map((page, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => setCurrentPage(idx + 1)}
-                                        className={cn(
-                                            "w-full p-3 rounded-xl border transition-all text-left flex items-center gap-3",
-                                            currentPage === idx + 1
-                                                ? "border-amber-600 bg-amber-50 shadow-sm"
-                                                : "border-amber-100 hover:border-amber-300 bg-white"
-                                        )}
-                                    >
-                                        <div className="w-8 h-8 bg-gradient-to-br from-amber-100 to-amber-50 rounded-lg flex items-center justify-center text-amber-700 font-black text-xs flex-shrink-0">
-                                            {idx + 1}
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <div className="text-xs font-bold truncate">পৃষ্ঠা {idx + 1}</div>
-                                            <div className="text-[10px] text-amber-700/60 truncate">
-                                                {page.content.substring(0, 20)}...
-                                            </div>
-                                        </div>
-                                        {bookmark.includes(idx + 1) && (
-                                            <Book size={12} className="text-amber-500 fill-amber-500 flex-shrink-0" />
-                                        )}
-                                    </button>
-                                ))}
+                {/* Modal Container */}
+                <div
+                    ref={modalRef}
+                    className="relative w-full max-w-6xl h-[90vh] bg-white rounded-3xl overflow-hidden shadow-2xl border border-amber-200 flex flex-col"
+                    style={{
+                        zIndex: 10000000,
+                        boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.5)',
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    {/* Modal Header */}
+                    <div className="flex items-center justify-between px-6 py-4 border-b border-amber-100 bg-gradient-to-r from-amber-50 to-white flex-shrink-0">
+                        <div className="flex items-center gap-3">
+                            <BookOpen className="text-amber-700" size={24} />
+                            <div>
+                                <h2 className="text-lg font-black text-[#1c1713]" style={{ fontFamily: "'Noto Serif Bengali', serif" }}>
+                                    আল-কুরআনের সহজ বাংলা অনুবাদ
+                                </h2>
+                                <p className="text-xs text-amber-700/60">নমুনা পাঠ {currentPage} / {totalPages}</p>
                             </div>
                         </div>
-                    )}
-
-                    {/* PDF Reader Content */}
-                    <div className="flex-1 flex flex-col overflow-hidden bg-[#faf7f2]">
-                        {/* Toolbar - fixed */}
-                        <div className="flex items-center justify-between px-4 py-2 border-b border-amber-100 bg-white/50 flex-shrink-0">
-                            <div className="flex items-center gap-1">
-                                <button
-                                    onClick={handlePrevPage}
-                                    disabled={currentPage === 1}
-                                    className="p-1.5 rounded-lg hover:bg-amber-100 disabled:opacity-30 transition-colors text-amber-700"
-                                >
-                                    <ChevronRight size={16} className="rotate-180" />
-                                </button>
-                                <span className="text-sm font-black mx-2">
-                                    {currentPage} / {totalPages}
-                                </span>
-                                <button
-                                    onClick={handleNextPage}
-                                    disabled={currentPage === totalPages}
-                                    className="p-1.5 rounded-lg hover:bg-amber-100 disabled:opacity-30 transition-colors text-amber-700"
-                                >
-                                    <ChevronRight size={16} />
-                                </button>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <button
-                                    onClick={() => setZoomLevel(prev => Math.min(200, prev + 25))}
-                                    className="p-1.5 rounded-lg hover:bg-amber-100 transition-colors text-amber-700"
-                                >
-                                    <ZoomIn size={14} />
-                                </button>
-                                <span className="text-xs font-bold w-12 text-center">{zoomLevel}%</span>
-                                <button
-                                    onClick={() => setZoomLevel(prev => Math.max(50, prev - 25))}
-                                    className="p-1.5 rounded-lg hover:bg-amber-100 transition-colors text-amber-700"
-                                >
-                                    <ZoomOut size={14} />
-                                </button>
-                                <div className="w-px h-4 bg-amber-200 mx-2" />
-                                <button
-                                    onClick={toggleBookmark}
-                                    className={cn(
-                                        "p-1.5 rounded-lg transition-colors",
-                                        bookmark.includes(currentPage)
-                                            ? "text-amber-600 bg-amber-100"
-                                            : "text-amber-400 hover:bg-amber-50"
-                                    )}
-                                >
-                                    <Book size={14} fill={bookmark.includes(currentPage) ? "currentColor" : "none"} />
-                                </button>
-                                <button className="p-1.5 rounded-lg hover:bg-amber-100 transition-colors text-amber-700">
-                                    <Download size={14} />
-                                </button>
-                                <button className="p-1.5 rounded-lg hover:bg-amber-100 transition-colors text-amber-700">
-                                    <Printer size={14} />
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Page Content - scrollable area */}
-                        <div className="flex-1 overflow-y-auto p-6" style={{ scrollbarWidth: 'thin' }}>
-                            <div
-                                className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8 border border-amber-100 transition-all"
-                                style={{ transform: `scale(${zoomLevel / 100})`, transformOrigin: 'top center' }}
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => setShowSidebar(!showSidebar)}
+                                className="p-2 hover:bg-amber-100 rounded-xl transition-colors text-amber-700"
                             >
-                                {/* Page Header */}
-                                <div className="flex justify-between items-center mb-6 pb-4 border-b border-amber-100">
-                                    <span className="text-xs font-bold text-amber-700/60">পৃষ্ঠা {currentPage}</span>
-                                    {bookmark.includes(currentPage) && (
-                                        <Book size={14} className="text-amber-500 fill-amber-500" />
-                                    )}
-                                </div>
+                                <Menu size={18} />
+                            </button>
+                            <button
+                                onClick={onClose}
+                                className="p-2 hover:bg-red-100 rounded-xl transition-colors text-red-500"
+                            >
+                                <X size={18} />
+                            </button>
+                        </div>
+                    </div>
 
-                                {/* Arabic Text */}
-                                <div className="mb-8 text-right" dir="rtl">
-                                    <p className="text-2xl font-arabic leading-loose text-gray-800" style={{ fontFamily: "'Traditional Arabic', 'Scheherazade', serif" }}>
-                                        {currentPageData.arabic}
-                                    </p>
+                    {/* Main Content */}
+                    <div className="flex-1 flex overflow-hidden min-h-0 bg-[#faf7f2]">
+                        {/* Sidebar - Page Thumbnails */}
+                        {showSidebar && (
+                            <div className="w-64 border-r border-amber-100 bg-amber-50/80 overflow-y-auto p-4 flex-shrink-0">
+                                <div className="mb-4">
+                                    <div className="relative">
+                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400" size={14} />
+                                        <input
+                                            type="text"
+                                            placeholder="অনুসন্ধান..."
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                            className="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-amber-200 bg-white focus:outline-none focus:border-amber-400"
+                                        />
+                                    </div>
                                 </div>
-
-                                {/* Bengali Translation */}
-                                <div className="space-y-4" style={{ fontFamily: "'Noto Serif Bengali', serif" }}>
-                                    {currentPageData.content.split('\n').map((line, i) => (
-                                        <p key={i} className="text-gray-700 leading-relaxed text-justify">
-                                            {line}
-                                        </p>
+                                <h3 className="text-xs font-black text-amber-700/60 mb-3 uppercase tracking-wider">পৃষ্ঠাসমূহ</h3>
+                                <div className="space-y-2">
+                                    {SAMPLE_PAGES.map((page, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => setCurrentPage(idx + 1)}
+                                            className={cn(
+                                                "w-full p-3 rounded-xl border transition-all text-left flex items-center gap-3",
+                                                currentPage === idx + 1
+                                                    ? "border-amber-600 bg-amber-50 shadow-sm"
+                                                    : "border-amber-100 hover:border-amber-300 bg-white"
+                                            )}
+                                        >
+                                            <div className="w-8 h-8 bg-gradient-to-br from-amber-100 to-amber-50 rounded-lg flex items-center justify-center text-amber-700 font-black text-xs flex-shrink-0">
+                                                {idx + 1}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="text-xs font-bold truncate">পৃষ্ঠা {idx + 1}</div>
+                                                <div className="text-[10px] text-amber-700/60 truncate">
+                                                    {page.content.substring(0, 20)}...
+                                                </div>
+                                            </div>
+                                            {bookmark.includes(idx + 1) && (
+                                                <Book size={12} className="text-amber-500 fill-amber-500 flex-shrink-0" />
+                                            )}
+                                        </button>
                                     ))}
                                 </div>
+                            </div>
+                        )}
 
-                                {/* Page Footer */}
-                                <div className="mt-8 pt-4 border-t border-amber-100 flex justify-between items-center text-xs text-amber-700/60">
-                                    <span>আল-কুরআনের সহজ বাংলা অনুবাদ - নমুনা</span>
-                                    <span>পৃষ্ঠা {currentPage} / {totalPages}</span>
+                        {/* PDF Reader Content */}
+                        <div className="flex-1 flex flex-col overflow-hidden bg-[#faf7f2]">
+                            {/* Toolbar */}
+                            <div className="flex items-center justify-between px-4 py-2 border-b border-amber-100 bg-white/80 backdrop-blur-sm flex-shrink-0">
+                                <div className="flex items-center gap-1">
+                                    <button
+                                        onClick={handlePrevPage}
+                                        disabled={currentPage === 1}
+                                        className="p-1.5 rounded-lg hover:bg-amber-100 disabled:opacity-30 transition-colors text-amber-700"
+                                    >
+                                        <ChevronRight size={16} className="rotate-180" />
+                                    </button>
+                                    <span className="text-sm font-black mx-2">
+                                        {currentPage} / {totalPages}
+                                    </span>
+                                    <button
+                                        onClick={handleNextPage}
+                                        disabled={currentPage === totalPages}
+                                        className="p-1.5 rounded-lg hover:bg-amber-100 disabled:opacity-30 transition-colors text-amber-700"
+                                    >
+                                        <ChevronRight size={16} />
+                                    </button>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => setZoomLevel(prev => Math.min(200, prev + 25))}
+                                        className="p-1.5 rounded-lg hover:bg-amber-100 transition-colors text-amber-700"
+                                    >
+                                        <ZoomIn size={14} />
+                                    </button>
+                                    <span className="text-xs font-bold w-12 text-center">{zoomLevel}%</span>
+                                    <button
+                                        onClick={() => setZoomLevel(prev => Math.max(50, prev - 25))}
+                                        className="p-1.5 rounded-lg hover:bg-amber-100 transition-colors text-amber-700"
+                                    >
+                                        <ZoomOut size={14} />
+                                    </button>
+                                    <div className="w-px h-4 bg-amber-200 mx-2" />
+                                    <button
+                                        onClick={toggleBookmark}
+                                        className={cn(
+                                            "p-1.5 rounded-lg transition-colors",
+                                            bookmark.includes(currentPage)
+                                                ? "text-amber-600 bg-amber-100"
+                                                : "text-amber-400 hover:bg-amber-50"
+                                        )}
+                                    >
+                                        <Book size={14} fill={bookmark.includes(currentPage) ? "currentColor" : "none"} />
+                                    </button>
+                                    <button className="p-1.5 rounded-lg hover:bg-amber-100 transition-colors text-amber-700">
+                                        <Download size={14} />
+                                    </button>
+                                    <button className="p-1.5 rounded-lg hover:bg-amber-100 transition-colors text-amber-700">
+                                        <Printer size={14} />
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Page Content */}
+                            <div className="flex-1 overflow-y-auto p-6" style={{ scrollbarWidth: 'thin' }}>
+                                <div
+                                    className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8 border border-amber-100 transition-all"
+                                    style={{ transform: `scale(${zoomLevel / 100})`, transformOrigin: 'top center' }}
+                                >
+                                    {/* Page Header */}
+                                    <div className="flex justify-between items-center mb-6 pb-4 border-b border-amber-100">
+                                        <span className="text-xs font-bold text-amber-700/60">পৃষ্ঠা {currentPage}</span>
+                                        {bookmark.includes(currentPage) && (
+                                            <Book size={14} className="text-amber-500 fill-amber-500" />
+                                        )}
+                                    </div>
+
+                                    {/* Arabic Text */}
+                                    <div className="mb-8 text-right" dir="rtl">
+                                        <p className="text-2xl font-arabic leading-loose text-gray-800" style={{ fontFamily: "'Traditional Arabic', 'Scheherazade', serif" }}>
+                                            {currentPageData.arabic}
+                                        </p>
+                                    </div>
+
+                                    {/* Bengali Translation */}
+                                    <div className="space-y-4" style={{ fontFamily: "'Noto Serif Bengali', serif" }}>
+                                        {currentPageData.content.split('\n').map((line, i) => (
+                                            <p key={i} className="text-gray-700 leading-relaxed text-justify">
+                                                {line}
+                                            </p>
+                                        ))}
+                                    </div>
+
+                                    {/* Page Footer */}
+                                    <div className="mt-8 pt-4 border-t border-amber-100 flex justify-between items-center text-xs text-amber-700/60">
+                                        <span>আল-কুরআনের সহজ বাংলা অনুবাদ - নমুনা</span>
+                                        <span>পৃষ্ঠা {currentPage} / {totalPages}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </Portal>
     );
 }
 
@@ -646,143 +682,216 @@ const MetaBox = ({ icon, label, value, isLink }: any) => (
 );
 
 /* ═══════════════════════════════════════════════
-   REVIEW SECTION - BENGALI
+   REVIEW SECTION - MATCHING THE IMAGE EXACTLY
 ═══════════════════════════════════════════════ */
 function ReviewSection() {
-    const [hoverRating, setHoverRating] = useState(0);
-    const [selectedRating, setSelectedRating] = useState(0);
-    const [reviewText, setReviewText] = useState("");
-    const [reviewName, setReviewName] = useState("");
-    const [reviewEmail, setReviewEmail] = useState("");
-    const [submitted, setSubmitted] = useState(false);
-
-    const handleSubmit = () => {
-        if (!selectedRating || !reviewText || !reviewName) return;
-        setSubmitted(true);
-        setTimeout(() => setSubmitted(false), 3000);
-        setReviewText(""); setReviewName(""); setReviewEmail(""); setSelectedRating(0);
-    };
+    const [sortBy, setSortBy] = useState("সবচেয়ে সহায়ক");
+    const [showAllReviews, setShowAllReviews] = useState(false);
+    const [helpfulCounts, setHelpfulCounts] = useState<Record<number, number>>(
+        MOCK_REVIEWS.reduce((acc, _, idx) => ({ ...acc, [idx]: MOCK_REVIEWS[idx].helpful }), {})
+    );
 
     const totalReviews = RATING_BREAKDOWN.reduce((a, b) => a + b.count, 0);
     const avgRating = (RATING_BREAKDOWN.reduce((a, b) => a + b.star * b.count, 0) / totalReviews).toFixed(1);
 
+    const handleHelpful = (idx: number) => {
+        setHelpfulCounts(prev => ({
+            ...prev,
+            [idx]: (prev[idx] || 0) + 1
+        }));
+    };
+
+    const reviewsToShow = showAllReviews ? MOCK_REVIEWS : MOCK_REVIEWS.slice(0, 3);
+
     return (
         <div className="mt-16">
-            <h2 className="text-2xl font-black text-[#1c1713] mb-8 flex items-center gap-2" style={{ fontFamily: "'Noto Serif Bengali', serif" }}>
-                <Star size={20} className="text-amber-500 fill-amber-500" /> পাঠকদের রিভিউ ও রেটিং
-            </h2>
-            <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-10">
-                {/* Rating overview */}
-                <div className="space-y-5">
-                    <div className="bg-white/80 backdrop-blur rounded-3xl border border-amber-100 p-7 text-center shadow-sm">
-                        <div className="text-6xl font-black text-amber-800 mb-2">{avgRating}</div>
-                        <div className="flex justify-center mb-2">
-                            {[1, 2, 3, 4, 5].map(s => <Star key={s} size={18} className="text-amber-500 fill-amber-500" />)}
-                        </div>
-                        <p className="text-xs text-amber-700/60">{totalReviews}টি রিভিউর উপর ভিত্তি করে</p>
-                    </div>
-                    <div className="space-y-2">
-                        {RATING_BREAKDOWN.map(({ star, count, pct }) => (
-                            <div key={star} className="flex items-center gap-2.5">
-                                <span className="text-xs font-bold text-amber-700/60 w-3">{star}</span>
-                                <Star size={10} className="text-amber-500 fill-amber-500 flex-shrink-0" />
-                                <div className="flex-1 h-2 bg-amber-100 rounded-full overflow-hidden">
-                                    <div className="h-full bg-amber-500 rounded-full transition-all duration-700" style={{ width: `${pct}%` }} />
-                                </div>
-                                <span className="text-xs text-amber-700/60 w-6 text-right">{count}</span>
-                            </div>
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-black text-gray-900 flex items-center gap-2">
+                    <Star className="text-amber-500 fill-amber-500" size={24} />
+                    রিভিউ ও রেটিং
+                </h2>
+                <button className="text-sm text-amber-600 hover:text-amber-700 font-medium flex items-center gap-1">
+                    রিভিউ লিখুন
+                    <MessageCircle size={16} />
+                </button>
+            </div>
+
+            {/* Rating Overview - Exactly as in image */}
+            <div className="flex items-start gap-8 p-6 bg-white rounded-2xl border border-gray-100 mb-8">
+                {/* Average Rating */}
+                <div className="flex flex-col items-center">
+                    <div className="text-5xl font-bold text-gray-900">4.8</div>
+                    <div className="flex items-center gap-1 mt-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <Star key={star} size={18} className="text-amber-400 fill-amber-400" />
                         ))}
                     </div>
+                    <p className="text-xs text-gray-500 mt-1">১২৩টি রিভিউ</p>
                 </div>
 
-                {/* Write review + existing */}
-                <div className="space-y-6">
-                    {/* Write review form */}
-                    <div className="bg-white/80 backdrop-blur rounded-3xl border border-amber-100 p-7 shadow-sm">
-                        <h3 className="text-lg font-black mb-5 text-[#1c1713]" style={{ fontFamily: "'Noto Serif Bengali', serif" }}>আপনার মতামত দিন</h3>
+                {/* Rating Bars */}
+                <div className="flex-1 space-y-2">
+                    {[5, 4, 3, 2, 1].map((star) => {
+                        const rating = RATING_BREAKDOWN.find(r => r.star === star);
+                        const count = rating?.count || 0;
+                        const percentage = (count / totalReviews) * 100;
 
-                        {/* Star picker */}
-                        <div className="mb-5">
-                            <p className="text-xs font-bold text-amber-700/60 uppercase tracking-widest mb-2.5">রেটিং দিন</p>
-                            <div className="flex items-center gap-2">
-                                {[1, 2, 3, 4, 5].map((s) => (
-                                    <button key={s} onMouseEnter={() => setHoverRating(s)} onMouseLeave={() => setHoverRating(0)} onClick={() => setSelectedRating(s)} className="transition-transform hover:scale-125">
-                                        <Star size={30} className={cn("transition-colors duration-150", s <= (hoverRating || selectedRating) ? "text-amber-500 fill-amber-500" : "text-amber-200 fill-amber-100")} />
-                                    </button>
-                                ))}
-                                {(hoverRating || selectedRating) > 0 && (
-                                    <span className="text-xs font-bold text-amber-700 ml-2">
-                                        {["", "খারাপ", "মোটামুটি", "ভালো", "খুব ভালো", "চমৎকার"][hoverRating || selectedRating]}
-                                    </span>
-                                )}
+                        return (
+                            <div key={star} className="flex items-center gap-3">
+                                <span className="text-sm font-medium text-gray-700 w-8">{star} ★</span>
+                                <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                                    <div
+                                        className="h-full bg-amber-400 rounded-full"
+                                        style={{ width: `${percentage}%` }}
+                                    />
+                                </div>
+                                <span className="text-sm text-gray-500 w-12">{count}</span>
                             </div>
-                        </div>
+                        );
+                    })}
+                </div>
+            </div>
 
-                        {/* Comment */}
-                        <div className="mb-4">
-                            <label className="block text-xs font-bold text-amber-700/60 uppercase tracking-widest mb-2">মন্তব্য *</label>
-                            <textarea value={reviewText} onChange={(e) => setReviewText(e.target.value)}
-                                placeholder="বইটি সম্পর্কে আপনার অভিজ্ঞতা লিখুন..."
-                                rows={3}
-                                className="w-full rounded-2xl border-2 border-amber-100 bg-amber-50/50 p-4 text-sm text-gray-800 placeholder:text-amber-700/30 focus:outline-none focus:border-amber-300 resize-none transition-colors"
-                                style={{ fontFamily: "'Noto Serif Bengali', serif" }} />
-                        </div>
-
-                        {/* Image upload */}
-                        <div className="mb-4">
-                            <label className="block text-xs font-bold text-amber-700/60 uppercase tracking-widest mb-2">ছবি আপলোড (ঐচ্ছিক)</label>
-                            <label className="flex items-center gap-3 border-2 border-dashed border-amber-200 rounded-2xl px-4 py-2.5 cursor-pointer hover:border-amber-400 hover:bg-amber-50/30 transition-all">
-                                <Camera size={15} className="text-amber-600 flex-shrink-0" />
-                                <span className="text-xs text-amber-700/60">ছবি বেছে নিন</span>
-                                <input type="file" accept="image/*" multiple className="hidden" />
-                            </label>
-                        </div>
-
-                        {/* Name + Email */}
-                        <div className="grid grid-cols-2 gap-3 mb-5">
-                            <div>
-                                <label className="block text-xs font-bold text-amber-700/60 uppercase tracking-widest mb-2">আপনার নাম *</label>
-                                <input value={reviewName} onChange={(e) => setReviewName(e.target.value)} placeholder="নাম লিখুন"
-                                    className="w-full rounded-xl border-2 border-amber-100 bg-amber-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder:text-amber-700/30 focus:outline-none focus:border-amber-300 transition-colors" />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-bold text-amber-700/60 uppercase tracking-widest mb-2">ইমেইল *</label>
-                                <input type="email" value={reviewEmail} onChange={(e) => setReviewEmail(e.target.value)} placeholder="email@example.com"
-                                    className="w-full rounded-xl border-2 border-amber-100 bg-amber-50/50 px-4 py-2.5 text-sm text-gray-800 placeholder:text-amber-700/30 focus:outline-none focus:border-amber-300 transition-colors" />
-                            </div>
-                        </div>
-
-                        <button onClick={handleSubmit} disabled={!selectedRating || !reviewText || !reviewName}
-                            className={cn("w-full h-12 rounded-2xl font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300",
-                                selectedRating && reviewText && reviewName
-                                    ? "bg-amber-700 text-white hover:bg-amber-800 shadow-lg shadow-amber-700/25"
-                                    : "bg-amber-100 text-amber-300 cursor-not-allowed")}>
-                            {submitted ? <><CheckCircle2 size={16} /> জমা হয়েছে!</> : <><Send size={16} /> রিভিউ জমা দিন</>}
+            {/* Sort Options */}
+            <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-500">সাজান:</span>
+                    {["সবচেয়ে সহায়ক", "সর্বশেষ", "সর্বোচ্চ রেটিং", "সর্বনিম্ন রেটিং"].map((option) => (
+                        <button
+                            key={option}
+                            onClick={() => setSortBy(option)}
+                            className={cn(
+                                "px-3 py-1 rounded-full text-xs font-medium transition-all",
+                                sortBy === option
+                                    ? "bg-amber-100 text-amber-700"
+                                    : "text-gray-500 hover:bg-gray-100"
+                            )}
+                        >
+                            {option}
                         </button>
-                    </div>
+                    ))}
+                </div>
+                <span className="text-xs text-gray-400">{MOCK_REVIEWS.length}টি রিভিউ</span>
+            </div>
 
-                    {/* Existing reviews */}
-                    <div className="space-y-4">
-                        {MOCK_REVIEWS.map((review, i) => (
-                            <div key={i} className="bg-white/80 backdrop-blur rounded-3xl border border-amber-100 p-6 shadow-sm">
-                                <div className="flex items-start gap-3 mb-3">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-600 to-amber-800 flex items-center justify-center text-white font-black text-sm flex-shrink-0">
-                                        {review.name.charAt(0)}
+            {/* Reviews List - Matching the image exactly */}
+            <div className="space-y-4">
+                {reviewsToShow.map((review, idx) => (
+                    <div key={idx} className="border-b border-gray-100 pb-6 last:border-0">
+                        <div className="flex items-start gap-3">
+                            {/* Avatar */}
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                                {review.avatar}
+                            </div>
+
+                            <div className="flex-1">
+                                {/* Header */}
+                                <div className="flex items-center justify-between mb-1">
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-medium text-gray-900">{review.name}</span>
+                                        <span className="text-xs text-gray-400">•</span>
+                                        <span className="text-xs text-gray-400">{review.date}</span>
                                     </div>
-                                    <div className="flex-1">
-                                        <div className="flex items-center justify-between">
-                                            <p className="text-sm font-black text-[#1c1713]" style={{ fontFamily: "'Noto Serif Bengali', serif" }}>{review.name}</p>
-                                            <div className="flex">
-                                                {[...Array(review.rating)].map((_, s) => <Star key={s} size={12} className="text-amber-500 fill-amber-500" />)}
-                                            </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="flex items-center gap-1">
+                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                <Star
+                                                    key={star}
+                                                    size={14}
+                                                    className={star <= review.rating ? "text-amber-400 fill-amber-400" : "text-gray-200"}
+                                                />
+                                            ))}
                                         </div>
-                                        <p className="text-xs text-amber-700/60 mt-0.5">{review.date}</p>
+                                        <button className="text-gray-300 hover:text-gray-500">
+                                            <MoreHorizontal size={16} />
+                                        </button>
                                     </div>
                                 </div>
-                                <p className="text-sm text-gray-700 leading-relaxed" style={{ fontFamily: "'Noto Serif Bengali', serif" }}>{review.comment}</p>
+
+                                {/* Comment */}
+                                <p className="text-sm text-gray-700 mb-3 leading-relaxed">
+                                    {review.comment}
+                                </p>
+
+                                {/* Actions */}
+                                <div className="flex items-center gap-4">
+                                    <button
+                                        onClick={() => handleHelpful(idx)}
+                                        className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-amber-600 transition-colors group"
+                                    >
+                                        <ThumbsUp size={14} className="group-hover:scale-110 transition-transform" />
+                                        <span>সহায়ক ({helpfulCounts[idx]})</span>
+                                    </button>
+                                    <button className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-amber-600 transition-colors">
+                                        <MessageCircle size={14} />
+                                        <span>রিপ্লাই</span>
+                                    </button>
+                                    <button className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-amber-600 transition-colors">
+                                        <Flag size={14} />
+                                        <span>রিপোর্ট</span>
+                                    </button>
+                                </div>
                             </div>
-                        ))}
+                        </div>
                     </div>
+                ))}
+            </div>
+
+            {/* Show More Button */}
+            {!showAllReviews && MOCK_REVIEWS.length > 3 && (
+                <div className="text-center mt-6">
+                    <button
+                        onClick={() => setShowAllReviews(true)}
+                        className="inline-flex items-center gap-2 text-amber-600 hover:text-amber-700 font-medium text-sm"
+                    >
+                        আরও {MOCK_REVIEWS.length - 3}টি রিভিউ দেখুন
+                        <ChevronDown size={16} />
+                    </button>
+                </div>
+            )}
+
+            {/* Write Review Box */}
+            <div className="mt-8 p-6 bg-gray-50 rounded-2xl">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">আপনার রিভিউ লিখুন</h3>
+                <div className="space-y-4">
+                    {/* Rating Stars */}
+                    <div className="flex items-center gap-2">
+                        <span className="text-sm text-gray-600">আপনার রেটিং:</span>
+                        <div className="flex items-center gap-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <button key={star} className="group">
+                                    <Star size={20} className="text-gray-300 group-hover:text-amber-400 transition-colors" />
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Review Text */}
+                    <textarea
+                        placeholder="বইটি সম্পর্কে আপনার অভিজ্ঞতা লিখুন..."
+                        rows={4}
+                        className="w-full rounded-xl border border-gray-200 p-4 text-sm focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
+                    />
+
+                    {/* Name and Email */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <input
+                            type="text"
+                            placeholder="আপনার নাম"
+                            className="rounded-xl border border-gray-200 px-4 py-2 text-sm focus:outline-none focus:border-amber-400"
+                        />
+                        <input
+                            type="email"
+                            placeholder="ইমেইল"
+                            className="rounded-xl border border-gray-200 px-4 py-2 text-sm focus:outline-none focus:border-amber-400"
+                        />
+                    </div>
+
+                    {/* Submit Button */}
+                    <button className="bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-xl font-medium text-sm transition-colors">
+                        রিভিউ জমা দিন
+                    </button>
                 </div>
             </div>
         </div>
@@ -984,8 +1093,6 @@ export default function BookProductDetail() {
                                     <span className="text-xs font-black uppercase tracking-tight">প্রমাণিত বিক্রেতা</span>
                                 </div>
                             </div>
-
-
                         </div>
 
                         {/* Book Description */}
